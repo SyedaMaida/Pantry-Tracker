@@ -41,6 +41,7 @@ export default function Home() {
   const [filter, setFilter] = useState('');
 
   const updateInventory = async () => {
+    if (!firestore) return;
     const snapshot = query(collection(firestore, 'inventory'));
     const docs = await getDocs(snapshot);
     const inventoryList = [];
@@ -65,6 +66,7 @@ export default function Home() {
   };
 
   const addItem = async (item) => {
+    if (!firestore || !storage) return;
     const imageUrl = await uploadImage(item);
     const docRef = doc(collection(firestore, 'inventory'), item);
     const docSnap = await getDoc(docRef);
@@ -81,6 +83,7 @@ export default function Home() {
   };
 
   const removeItem = async (item) => {
+    if (!firestore) return;
     const docRef = doc(collection(firestore, 'inventory'), item);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
